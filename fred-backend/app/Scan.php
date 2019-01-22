@@ -13,5 +13,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Scan extends Model
 {
-
+protected $fillable = ["longitude","latitude","app_user_id"];
 }

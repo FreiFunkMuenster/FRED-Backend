@@ -20,21 +20,45 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['api-key']], function () {
 
-    Route::post('v1/app-user/create', function(Request $request) {
+    Route::post('v1/app-user/create', function (Request $request) {
         return \App\AppUser::create(
             [
                 "hash" => \Illuminate\Support\Str::random(64),
-                "device_make" => $request->input("device-make",null),
-                "device_model" => $request->input("device-model",null)
+                "device_make" => $request->input("device-make", null),
+                "device_model" => $request->input("device-model", null)
             ]
         );
     });
 
+
 });
 
 
-Route::group(['middleware' => ['app-user','api-key']], function () {
+Route::group(['middleware' => ['app-user', 'api-key']], function () {
 
+
+    Route::post('v1/scans/create', function (Request $request) {
+        $appUser = \App\AppUser::where('hash', $request->hash)->first();
+        echo $appUser->id;
+        $cntSucess = 0;
+        $cntErrors = 0;
+        foreach ($request->scans as $scan) {
+            if (is_numeric($scan["latitude"]) && is_numeric($scan["latitude"])) {
+
+                \App\Scan::create([
+                    "longitude" => $scan["longitude"],
+                    "latitude" => $scan["latitude"],
+                    "app_user_id" => $appUser->id
+                ]);
+                $cntSucess ++;
+            }else{
+                $cntErrors++;
+            }
+
+        }
+        return ["created_scans" => $cntSucess, "errors" => $cntErrors];
+
+    });
 
 
 });

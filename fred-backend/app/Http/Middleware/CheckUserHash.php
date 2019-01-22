@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\AppUser;
 use Closure;
 use Illuminate\Http\Response;
 
@@ -17,10 +18,11 @@ class CheckUserHash
     public function handle($request, Closure $next)
     {
 
+            $appUser = AppUser::where('hash',$request->hash)->first();
 
-           // return Response::create(json_encode(['return_code' => 'ERROR', 'error_code' => 'WRONG_USER_HASH','error_text'=>'Please provide a correct user hash.']));
-
-
-        return $next($request);
+            if(!$appUser)
+                return Response::create(json_encode(['return_code' => 'ERROR', 'error_code' => 'WRONG_USER_HASH' ,'error_text'=>'Please provide a correct user hash.']));
+            else
+                return $next($request);
     }
 }
