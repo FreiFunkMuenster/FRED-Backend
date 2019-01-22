@@ -21,7 +21,7 @@ class CreateScansTable extends Migration
             $table->foreign('app_user_id')->references('id')->on('app_users')->onDelete('cascade');
 
             $table->decimal("longitude");
-            $table->decimal("latidude");
+            $table->decimal("latitude");
 
         });
     }
