@@ -16,7 +16,7 @@ class CreateNetworkTable extends Migration
         Schema::create('networks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('bssid')->unique();
-
+            $table->timestamps();
         });
     }
 
