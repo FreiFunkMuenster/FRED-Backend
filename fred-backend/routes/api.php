@@ -17,7 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+Route::get('', function (Request $request) {
+    return ["status"=>"F.R.E.D API up and running."];
+});
 Route::group(['middleware' => ['api-key']], function () {
 
     Route::post('v1/app-user/create', function (Request $request) {
