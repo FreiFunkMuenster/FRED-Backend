@@ -14,5 +14,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class NetworkScanDataSet extends Model
 {
-    protected $fillable = ['network_id','scan_id','ssid', 'capabilities', 'frequency', 'level', 'distance', 'distance-sd', 'passpoint', 'channel-bandwidth', 'center-frequence-o', 'center-frequence-1', 'mc-responder', 'channel-mode','bss-load-element'];
+    protected $fillable = [
+        'network_id',
+        'scan_id',
+        'ssid',
+        'capabilities',
+        'frequency',
+        'level',
+        'distance',
+        'distanceSd',
+        'passpoint',
+        'channelBandwidth',
+        'centerFrequency0',
+        'centerFrequency1',
+        'mcResponder',
+        'channelMode',
+        'bssLoadElement'
+    ];
 }

@@ -28,14 +28,14 @@ class CreateNetworkScanDataSetsTable extends Migration
             $table->string('frequency')->nullable();
             $table->string('level')->nullable();
             $table->string('distance')->nullable();
-            $table->string('distance-sd')->nullable();
+            $table->string('distanceSd')->nullable();
             $table->string('passpoint')->nullable();
-            $table->string('channel-bandwidth')->nullable();
-            $table->string('center-frequence-o')->nullable();
-            $table->string('center-frequence-1')->nullable();
-            $table->string('mc-responder')->nullable();
-            $table->string('channel-mode')->nullable();
-            $table->string('bss-load-element')->nullable();
+            $table->string('channelBandwidth')->nullable();
+            $table->string('centerFrequency0')->nullable();
+            $table->string('centerFrequency1')->nullable();
+            $table->string('mcResponder')->nullable();
+            $table->string('channelMode')->nullable();
+            $table->string('bssLoadElement')->nullable();
         });
     }
 
