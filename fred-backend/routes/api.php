@@ -22,7 +22,7 @@ Route::get('', function (Request $request) {
 });
 
 Route::get('v1/test', function (Request $request) {
-    return \App\Scan::orderBy('id', 'desc')->limit(5);
+    return \App\Scan::orderBy('id', 'desc')->limit(5)->get();
 });
 
 Route::group(['middleware' => ['api-key']], function () {
