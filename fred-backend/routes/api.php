@@ -22,7 +22,14 @@ Route::get('', function (Request $request) {
 });
 
 Route::get('v1/test', function (Request $request) {
-    return \App\Scan::orderBy('id', 'desc')->limit(5)->get();
+    $result = [];
+
+    foreach (\App\Scan::orderBy('id', 'desc')->limit(5)->get() as $scan) {
+        $scan->wifis = $scan->scanData;
+        $result[] = $scan;
+    }
+
+    return $result;
 });
 
 Route::group(['middleware' => ['api-key']], function () {
