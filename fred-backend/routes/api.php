@@ -20,6 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('', function (Request $request) {
     return ["status"=>"F.R.E.D API up and running."];
 });
+
+Route::get('v1/test', function (Request $request) {
+    return \App\Scan::orderBy('id', 'desc')->limit(5);
+});
+
 Route::group(['middleware' => ['api-key']], function () {
 
     Route::post('v1/app-user/create', function (Request $request) {
