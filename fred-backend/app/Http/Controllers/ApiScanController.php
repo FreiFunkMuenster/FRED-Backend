@@ -54,4 +54,14 @@ class ApiScanController extends Controller
 
 
    }
+
+   public function getLatestScans(Request $request){
+       $result = [];
+       $result[]="Warning: This function will be removed on productive system.";
+       foreach (\App\Scan::orderBy('id', 'desc')->limit(5)->get() as $scan) {
+           $scan->scanData;  // load scan data once
+           $result[] = $scan;
+       }
+       return $result;
+   }
 }
