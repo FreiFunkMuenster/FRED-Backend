@@ -20,6 +20,8 @@ Route::get('', function (Request $request) {
 
 Route::group(['middleware' => ['api-key']], function () {
     Route::post('v1/app-user/create', "ApiAppUserController@create");
+
+    Route::get('v1/scans/get/byRectangle', "ApiScanController@getByRectangle");
 });
 
 
