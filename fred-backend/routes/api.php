@@ -27,8 +27,9 @@ Route::group(['middleware' => ['api-key']], function () {
 
 Route::group(['middleware' => ['app-user', 'api-key']], function () {
     Route::post('v1/scans/create', "ApiScanController@create");
+    Route::post('v1/logs/create', "UserLogsController@create");
 });
 
-/*  WARNING: REMOVE THIS SECTION ON A PRODUCTIVE SYSTEM */
+/*  TODO: REMOVE THIS SECTION ON A PRODUCTIVE SYSTEM */
 Route::get('v1/test', "ApiScanController@getLatestScans");
-/*
+Route::get('v1/logs', "UserLogsController@getLogView");
