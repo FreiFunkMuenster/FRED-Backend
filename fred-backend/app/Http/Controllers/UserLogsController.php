@@ -22,7 +22,7 @@ class UserLogsController extends Controller
                     'tag' => $log['tag'],
                     'message' => $log['message'],
                     'app_user_id' => $appUser->id,
-                    'time' => Carbon::createFromTimestamp(intval($log['time'])),
+                    'time' => Carbon::createFromTimestamp(intval($log['time'] / 1000)),
                     'level' => $log['level']
                 ]);
                 $cntSucess++;
