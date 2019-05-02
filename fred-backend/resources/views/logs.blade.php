@@ -3,7 +3,7 @@
 
 <br>
 
-<table>
+<table style="width: 100%">
 
     <thead>
         <tr>
@@ -19,28 +19,18 @@
             <td>
                 {{$log->id}}
             </td>
-        </tr>
-        <tr>
             <td>
                 {{$log->tag}}
             </td>
-        </tr>
-        <tr>
             <td>
                 {{$log->message}}
             </td>
-        </tr>
-        <tr>
             <td>
                 {{$log->level}}
             </td>
-        </tr>
-        <tr>
             <td>
                 {{$log->time}}
             </td>
-        </tr>
-        <tr>
             <td>
                 {{$log->app_user_id}}
             </td>

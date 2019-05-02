@@ -21,7 +21,6 @@ class CreateUserlogsTable extends Migration
             $table->timestamp('time');
 
             $table->unsignedBigInteger('app_user_id');
-            $table->foreign('app_user_id')->references('id')->on('app_users')->onDelete('cascade');
 
             $table->timestamps();
         });

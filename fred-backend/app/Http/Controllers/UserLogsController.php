@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Scan;
 use App\Userlog;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserLogsController extends Controller
 {
     public function create(Request $request)
     {
-
         $appUser = \App\AppUser::where('hash', $request->hash)->first();
 
         $cntSucess = 0;
@@ -22,12 +22,13 @@ class UserLogsController extends Controller
                     'tag' => $log['tag'],
                     'message' => $log['message'],
                     'app_user_id' => $appUser->id,
-                    'time' => $log['time'],
+                    'time' => Carbon::createFromTimestamp(intval($log['time'])),
                     'level' => $log['level']
                 ]);
                 $cntSucess++;
             } catch (\Exception $e) {
                 $cntErrors++;
+              print_r($e->getMessage());
             }
 
         }
@@ -37,12 +38,12 @@ class UserLogsController extends Controller
     }
 
     // todo: subject to remove on production
-    public function getLogsView(Request $request) {
+    public function getLogView(Request $request) {
         $order = $request->get('order', 'desc');
 
-        $logs = Userlog::all()->orderBy('time', $order)->paginate(150);
+        $logs = Userlog::orderBy('time', $order)->paginate(150);
 
-        view('logs', [
+        return view('logs', [
             'logs' => $logs
         ]);
     }
