@@ -10,6 +10,7 @@ namespace App;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Scan extends Model
 {
@@ -18,4 +19,10 @@ class Scan extends Model
     public function scanData() {
         return $this->hasMany(NetworkScanDataSet::class, 'scan_id', 'id');
     }
+
+    public function AppUser() {
+        return $this->hasOne(AppUser::class, 'id', 'app_user_id');
+    }
+
+
 }

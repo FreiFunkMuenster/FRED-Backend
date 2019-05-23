@@ -31,4 +31,9 @@ class NetworkScanDataSet extends Model
         'channelMode',
         'bssLoadElement'
     ];
+
+
+    public function networkData() {
+        return $this->hasOne(Network::class, 'id', 'network_id');
+    }
 }

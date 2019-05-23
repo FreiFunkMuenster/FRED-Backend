@@ -1,0 +1,14 @@
+{
+  "scan_frequency_time": 30,
+  "scan_frequency_distance": 10,
+  "scan_frequency_accuracy": 15,
+  "target_ssids": [
+    "Adelt-IT 5.0 GHZ", "Adelt-IT 2.4 GHZ", "ADELT00 Gastzugang", "Freifunk"
+  ],
+  "scan_time_to_stop": 0,
+  "auto_upload": true,
+  "upload_only_wifi": true,
+  "backend_url": "https://fredbackend.ffmsl.de",
+  "sync_frequency": 3600,
+  "tile_server_url": "https://karte.freifunk-muensterland.de/tiles_cache/osm_mapnik"
+}
