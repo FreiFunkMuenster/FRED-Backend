@@ -9,6 +9,6 @@
   "auto_upload": true,
   "upload_only_wifi": true,
   "backend_url": "https://fredbackend.ffmsl.de",
-  "sync_frequency": 3600,
+  "sync_frequency": 180,
   "tile_server_url": "https://karte.freifunk-muensterland.de/tiles_cache/osm_mapnik"
 }
