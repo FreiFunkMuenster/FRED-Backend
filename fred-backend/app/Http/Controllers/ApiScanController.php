@@ -151,7 +151,7 @@ class ApiScanController extends Controller
                 ->join('network_scan_data_sets', 'network_scan_data_sets.scan_id', '=', 'scans.id')
                 ->join('networks', 'network_scan_data_sets.network_id', '=', 'networks.id')
                 ->where($pattern)
-                ->paginate(100);
+                ->paginate(1000);
 
 
             $result = [];
@@ -187,7 +187,15 @@ class ApiScanController extends Controller
                     "bss_load_element" => $scan->bss_load_element,
                 ];
             }
-            return json_encode($result);
+
+            return json_encode(["metadata" => ["count" => $scans->count(),
+                "currentPage" =>$scans->currentPage(),
+                "hasMorePages"=>$scans->hasMorePages(),
+                "lastPage"=>$scans->lastPage(),
+                "scansPerPage"=>$scans->perPage(),
+                "total"=>$scans->total(),
+
+            ], "result" => $result]);
 
         } else {
             return json_encode(["Error" => "One or multiple of the following parameter are missing: bottomleft_longitude, bottomleft_latitude, topright_longitude, topright_latitude"]);
