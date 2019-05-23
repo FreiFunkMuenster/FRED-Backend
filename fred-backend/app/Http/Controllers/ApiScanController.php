@@ -114,12 +114,7 @@ class ApiScanController extends Controller
                 $pattern[] = ['nickname', 'NOT LIKE', $request->not_nickname];
             }
 
-            if ($request->nickname) {
-                $pattern[] = ['nickname', 'LIKE', $request->nickname];
-            }
-            if ($request->not_nickname) {
-                $pattern[] = ['nickname', 'NOT LIKE', $request->not_nickname];
-            }
+
 
             $scans = Scan::select(
                 [
