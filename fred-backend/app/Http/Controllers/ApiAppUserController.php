@@ -15,4 +15,12 @@ class ApiAppUserController extends Controller
             ]
         );
     }
+    public function update(Request $request){
+
+        $appUser = \App\AppUser::where('hash', $request->hash)->first();
+
+        $appUser->nickname = $request->nickname;
+        $appUser->save();
+        return json_encode("true");
+    }
 }

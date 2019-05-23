@@ -20,6 +20,7 @@ Route::get('', function (Request $request) {
 
 Route::group(['middleware' => ['api-key']], function () {
     Route::post('v1/app-user/create', "ApiAppUserController@create");
+    Route::post('v1/app-user/update', "ApiAppUserController@update");
     Route::get('v1/scans/get/byRectangle', "ApiScanController@getByRectangle");
 });
 
@@ -27,10 +28,6 @@ Route::group(['middleware' => ['api-key']], function () {
 Route::group(['middleware' => ['app-user', 'api-key']], function () {
     Route::post('v1/scans/create', "ApiScanController@create");
     Route::post('v1/logs/create', "UserLogsController@create");
-});
-
-Route::get('/config', function (Request $request) {
-    return ["status" => "F.R.E.D API up and running."];
 });
 
 
