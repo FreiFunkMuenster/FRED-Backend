@@ -151,7 +151,7 @@ class ApiScanController extends Controller
                 ->join('network_scan_data_sets', 'network_scan_data_sets.scan_id', '=', 'scans.id')
                 ->join('networks', 'network_scan_data_sets.network_id', '=', 'networks.id')
                 ->where($pattern)
-                ->get();
+                ->paginate(100);
 
 
             $result = [];
