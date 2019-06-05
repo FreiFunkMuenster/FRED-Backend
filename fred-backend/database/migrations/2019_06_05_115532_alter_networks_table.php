@@ -14,9 +14,9 @@ class AlterNetworksTable extends Migration
     public function up()
     {
         Schema::table('networks', function(Blueprint $table){
-            $table->decimal("calculated_longitude");
-            $table->decimal("calculated_latitude");
-            $table->integer('datapoints');
+            $table->decimal("calculated_longitude")->default(0);
+            $table->decimal("calculated_latitude")->default(0);
+            $table->integer('datapoints')->default(0);
         });
     }
 
