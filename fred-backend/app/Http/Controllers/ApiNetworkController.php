@@ -13,7 +13,7 @@ class ApiNetworkController extends Controller
 
         $result = [];
        // $result[] = "Warning: This function will be removed on productive system.";
-        foreach (\App\Network::orderBy('id', 'desc')->limit(5)->get() as $scan) {
+        foreach (\App\Network::orderBy('id', 'desc')->get() as $scan) {
             $scan->scanData;  // load scan data once
             $result[] = $scan;
         }
