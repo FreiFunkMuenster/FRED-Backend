@@ -53,10 +53,13 @@ class CalculateNetworkPositions extends Command
                 $sum_latitude += $scanData->scan()->first()->latitude;
 
             }
-            $network->calculated_longitude = $sum_longitude / $datapoints;
-            $network->calculated_latitude = $sum_latitude / $datapoints;
-            $network->datapoints = $datapoints;
-            $network->save();
+            if($datapoints>0){
+                $network->calculated_longitude = $sum_longitude / $datapoints;
+                $network->calculated_latitude = $sum_latitude / $datapoints;
+                $network->datapoints = $datapoints;
+                $network->save();
+            }
+
             $this->line("Calculating Network $network->bssid  Datapoints: $datapoints");
         }
 
