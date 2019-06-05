@@ -34,3 +34,6 @@ Route::group(['middleware' => ['app-user', 'api-key']], function () {
 /*  TODO: REMOVE THIS SECTION ON A PRODUCTIVE SYSTEM */
 Route::get('v1/test', "ApiScanController@getLatestScans");
 Route::get('v1/logs', "UserLogsController@getLogView");
+
+
+Route::get('v1/networks/', "ApiNetworkController@getAll");
