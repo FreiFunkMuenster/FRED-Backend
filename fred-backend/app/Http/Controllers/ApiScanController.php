@@ -35,7 +35,7 @@ class ApiScanController extends Controller
 
                         }
 
-/*
+
                         $diff_longitude = $network->calculated_longitude - $scan["longitude"];
                         $diff_longitude = $diff_longitude / ($network->datapoints + 1);
                         $network->calculated_longitude += $diff_longitude;
@@ -48,7 +48,7 @@ class ApiScanController extends Controller
                         $network->save();
 
                         $scannedNetwork = array_merge(["network_id" => $network->id, "scan_id" => $newScan->id], $scannedNetwork);
-*/
+
 
                         \App\NetworkScanDataSet::create($scannedNetwork);
 
