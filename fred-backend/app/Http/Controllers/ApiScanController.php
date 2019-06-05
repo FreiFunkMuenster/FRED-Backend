@@ -35,6 +35,18 @@ class ApiScanController extends Controller
 
                         }
 
+
+                        $diff_longitude = $network->calculated_longitude - $scan["longitude"];
+                        $diff_longitude = $diff_longitude / ($network->datapoints + 1);
+                        $network->calculated_longitude += $diff_longitude;
+
+                        $diff_latitude = $network->calculated_latitude - $scan["latitude"];
+                        $diff_latitude = $diff_latitude / ($network->datapoints + 1);
+                        $network->caculated_latitude += $diff_latitude;
+
+                        $network->datapoints++;
+                        $network->save();
+
                         $scannedNetwork = array_merge(["network_id" => $network->id, "scan_id" => $newScan->id], $scannedNetwork);
 
 
@@ -115,7 +127,6 @@ class ApiScanController extends Controller
             }
 
 
-
             $scans = Scan::select(
                 [
                     "scans.id as scan_id",
@@ -184,11 +195,11 @@ class ApiScanController extends Controller
             }
 
             return json_encode(["metadata" => ["count" => $scans->count(),
-                "currentPage" =>$scans->currentPage(),
-                "hasMorePages"=>$scans->hasMorePages(),
-                "lastPage"=>$scans->lastPage(),
-                "scansPerPage"=>$scans->perPage(),
-                "total"=>$scans->total(),
+                "currentPage" => $scans->currentPage(),
+                "hasMorePages" => $scans->hasMorePages(),
+                "lastPage" => $scans->lastPage(),
+                "scansPerPage" => $scans->perPage(),
+                "total" => $scans->total(),
 
             ], "result" => $result]);
 
