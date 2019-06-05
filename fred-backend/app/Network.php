@@ -15,4 +15,8 @@ class Network extends Model
 {
     protected $fillable = ['bssid'];
 
+
+    public function getNetworkScanData() {
+        return $this->hasMany(NetworkScanDataSet::class, 'network_id', 'id');
+    }
 }

@@ -36,4 +36,8 @@ class NetworkScanDataSet extends Model
     public function networkData() {
         return $this->hasOne(Network::class, 'id', 'network_id');
     }
+
+    public function scan() {
+        return $this->hasOne(Scan::class, 'id', 'scan_id');
+    }
 }
