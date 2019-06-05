@@ -64,7 +64,7 @@ class CalculateNetworkPositions extends Command
                 $network->save();
             }
 
-            $this->line(round($current_counter/$amount_networks*100 )."% | Calculated network $network->bssid | Datapoints: $datapoints");
+            $this->line(sprintf("%03d", round($current_counter/$amount_networks*100 ))."% | Calculated network $network->bssid | Datapoints: $datapoints");
         }
 
         $time_post = microtime(true);
