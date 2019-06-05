@@ -40,9 +40,12 @@ class CalculateNetworkPositions extends Command
     {
         $time_pre = microtime(true);
         $networks = Network::all();
-        $this->info("Starting recalculation of network positions." . count($networks));
+        $amount_networks = count($networks);
+        $current_counter = 0;
+        $this->info("\nStarting recalculation of network positions.\n" );
+        $sum_datapoints = 0;
         foreach ($networks as $network){
-
+            $current_counter++;
 
             $sum_longitude = 0;
             $sum_latitude = 0;
@@ -54,17 +57,19 @@ class CalculateNetworkPositions extends Command
 
             }
             if($datapoints>0){
+                $sum_datapoints += $datapoints;
                 $network->calculated_longitude = $sum_longitude / $datapoints;
                 $network->calculated_latitude = $sum_latitude / $datapoints;
                 $network->datapoints = $datapoints;
                 $network->save();
             }
 
-            $this->line("Calculating Network $network->bssid  Datapoints: $datapoints");
+            $this->line(round($current_counter/$amount_networks*100 )."% | Calculated network $network->bssid | Datapoints: $datapoints");
         }
 
         $time_post = microtime(true);
         $exec_time = round($time_post - $time_pre,3);
-        $this->info("Done. Execution time: ".$exec_time."s");
-    }
+
+        $this->info("\nDone. Execution time: ".$exec_time."s | Calculated Networks: ".count($networks)." | Datapoints: $sum_datapoints");
+            }
 }
