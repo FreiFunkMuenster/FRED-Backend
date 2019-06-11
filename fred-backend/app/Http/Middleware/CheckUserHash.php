@@ -20,13 +20,10 @@ class CheckUserHash
 
             $appUser = AppUser::where('hash',$request->hash)->first();
 
-            if(!$appUser) {
-                $result = json_encode(['return_code' => 'ERROR', 'error_code' => 'WRONG_USER_HASH' ,'error_text'=>'Please provide a correct user hash.']);
+            if(!$appUser)
                 return Response::create(
-                    $result,
-                    403,
-                    ['Content-Length' => strlen($result)]);
-            }
+                    json_encode(['return_code' => 'ERROR', 'error_code' => 'WRONG_USER_HASH' ,'error_text'=>'Please provide a correct user hash.']),
+                    403);
             else
                 return $next($request);
     }
