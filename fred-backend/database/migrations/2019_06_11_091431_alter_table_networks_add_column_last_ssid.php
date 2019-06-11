@@ -15,7 +15,7 @@ class AlterTableNetworksAddColumnLastSsid extends Migration
     {
         Schema::table('networks', function (Blueprint $table) {
             //
-            $table->string('last_ssid');
+            $table->string('last_ssid')->default('');
         });
     }
 
