@@ -36,4 +36,7 @@ Route::get('v1/test', "ApiScanController@getLatestScans");
 Route::get('v1/logs', "UserLogsController@getLogView");
 
 
-Route::get('v1/networks/', "ApiNetworkController@getAll");
+
+Route::group(['middleware' => ['cors']], function () {
+    Route::get('v1/networks/', "ApiNetworkController@getAll");
+});
