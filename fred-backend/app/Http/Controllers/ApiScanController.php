@@ -38,15 +38,18 @@ class ApiScanController extends Controller
 
                             }
 
+                            if($network->calculated_longitude != 0) {
+                                $diff_longitude = $network->calculated_longitude - $scan["longitude"];
+                                $diff_longitude = $diff_longitude / ($network->datapoints + 1);
+                                $network->calculated_longitude += $diff_longitude;
 
-                            $diff_longitude = $network->calculated_longitude - $scan["longitude"];
-                            $diff_longitude = $diff_longitude / ($network->datapoints + 1);
-                            $network->calculated_longitude += $diff_longitude;
-
-                            $diff_latitude = $network->calculated_latitude - $scan["latitude"];
-                            $diff_latitude = $diff_latitude / ($network->datapoints + 1);
-                            $network->calculated_latitude += $diff_latitude;
-
+                                $diff_latitude = $network->calculated_latitude - $scan["latitude"];
+                                $diff_latitude = $diff_latitude / ($network->datapoints + 1);
+                                $network->calculated_latitude += $diff_latitude;
+                            }else{
+                                $network->calculated_longitude = $scan["longitude"];
+                                $network->calculated_latitude = $scan["latitude"];
+                            }
                             $network->last_ssid = $scannedNetwork['ssid'];
                             $network->datapoints++;
                             $network->save();
