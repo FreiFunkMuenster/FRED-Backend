@@ -12,8 +12,8 @@ class ApiScanController extends Controller
 
         $appUser = \App\AppUser::where('hash', $request->hash)->first();
 
-        $cntSucessScan = 0;
-        $cntSucessNetwork = 0;
+        $cntSuccessScan = 0;
+        $cntSuccessNetwork = 0;
         $cntErrorsNetwork = 0;
         $cntErrorsScan = 0;
         foreach ($request->scans as $scan) {
@@ -22,7 +22,9 @@ class ApiScanController extends Controller
                 $newScan = \App\Scan::create([
                     "longitude" => $scan["longitude"],
                     "latitude" => $scan["latitude"],
-                    "app_user_id" => $appUser->id
+                    "app_user_id" => $appUser->id,
+                    "altitude" => isset($scan['altitude']) ? $scan['altitude'] : null,
+                    "accuracy" => isset($scan['accuracy']) ? $scan['accuracy'] : null,
                 ]);
 
 
@@ -53,18 +55,18 @@ class ApiScanController extends Controller
                         \App\NetworkScanDataSet::create($scannedNetwork);
 
 
-                        $cntSucessNetwork++;
+                        $cntSuccessNetwork++;
                     } else {
                         $cntErrorsNetwork++;
                     }
                 }
-                $cntSucessScan++;
+                $cntSuccessScan++;
             } else {
                 $cntErrorsScan++;
             }
 
         }
-        return ["created_scans" => $cntSucessScan, "failed_scans" => $cntErrorsScan, "created_networks" => $cntSucessNetwork, "failed_networks" => $cntErrorsNetwork];
+        return ["created_scans" => $cntSuccessScan, "failed_scans" => $cntErrorsScan, "created_networks" => $cntSuccessNetwork, "failed_networks" => $cntErrorsNetwork];
 
 
     }
