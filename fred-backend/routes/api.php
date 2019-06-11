@@ -38,5 +38,6 @@ Route::get('v1/logs', "UserLogsController@getLogView");
 
 
 Route::group(['middleware' => ['cors']], function () {
-    Route::get('v1/networks/', "ApiNetworkController@getAll");
+    Route::get('v1/networks/all', "ApiNetworkController@getAll");
+    Route::get('v1/networks/', "ApiNetworkController@getVisible");
 });
