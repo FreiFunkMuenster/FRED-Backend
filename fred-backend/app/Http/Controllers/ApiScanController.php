@@ -10,64 +10,69 @@ class ApiScanController extends Controller
     public function create(Request $request)
     {
 
-        $appUser = \App\AppUser::where('hash', $request->hash)->first();
+        try {
+            $appUser = \App\AppUser::where('hash', $request->hash)->first();
 
-        $cntSuccessScan = 0;
-        $cntSuccessNetwork = 0;
-        $cntErrorsNetwork = 0;
-        $cntErrorsScan = 0;
-        foreach ($request->scans as $scan) {
-            if (isset($scan["latitude"]) && isset($scan["longitude"]) && is_numeric($scan["latitude"]) && is_numeric($scan["longitude"])) {
+            $cntSuccessScan = 0;
+            $cntSuccessNetwork = 0;
+            $cntErrorsNetwork = 0;
+            $cntErrorsScan = 0;
+            foreach ($request->scans as $scan) {
+                if (isset($scan["latitude"]) && isset($scan["longitude"]) && is_numeric($scan["latitude"]) && is_numeric($scan["longitude"])) {
 
-                $newScan = \App\Scan::create([
-                    "longitude" => $scan["longitude"],
-                    "latitude" => $scan["latitude"],
-                    "app_user_id" => $appUser->id,
-                    "altitude" => isset($scan['altitude']) && is_numeric($scan['altitude']) ? $scan['altitude'] : null,
-                    "accuracy" => isset($scan['accuracy']) && is_numeric($scan['accuracy']) ? $scan['accuracy'] : null,
-                ]);
+                    $newScan = \App\Scan::create([
+                        "longitude" => $scan["longitude"],
+                        "latitude" => $scan["latitude"],
+                        "app_user_id" => $appUser->id,
+                        "altitude" => isset($scan['altitude']) && is_numeric($scan['altitude']) ? $scan['altitude'] : null,
+                        "accuracy" => isset($scan['accuracy']) && is_numeric($scan['accuracy']) ? $scan['accuracy'] : null,
+                    ]);
 
 
-                foreach ($scan['networks'] as $scannedNetwork) {
-                    if (isset($scannedNetwork['bssid']) && isset($scannedNetwork['ssid'])) {
-                        $network = \App\Network::where("bssid", $scannedNetwork['bssid'])->first();
-                        if (!$network) {
+                    foreach ($scan['networks'] as $scannedNetwork) {
+                        if (isset($scannedNetwork['bssid']) && isset($scannedNetwork['ssid'])) {
+                            $network = \App\Network::where("bssid", $scannedNetwork['bssid'])->first();
+                            if (!$network) {
 
-                            $network = \App\Network::create(["bssid" => $scannedNetwork['bssid']]);
+                                $network = \App\Network::create(["bssid" => $scannedNetwork['bssid']]);
 
+                            }
+
+
+                            $diff_longitude = $network->calculated_longitude - $scan["longitude"];
+                            $diff_longitude = $diff_longitude / ($network->datapoints + 1);
+                            $network->calculated_longitude += $diff_longitude;
+
+                            $diff_latitude = $network->calculated_latitude - $scan["latitude"];
+                            $diff_latitude = $diff_latitude / ($network->datapoints + 1);
+                            $network->calculated_latitude += $diff_latitude;
+
+                            $network->last_ssid = $scannedNetwork['ssid'];
+                            $network->datapoints++;
+                            $network->save();
+
+                            $scannedNetwork = array_merge(["network_id" => $network->id, "scan_id" => $newScan->id], $scannedNetwork);
+
+
+                            \App\NetworkScanDataSet::create($scannedNetwork);
+
+
+                            $cntSuccessNetwork++;
+                        } else {
+                            $cntErrorsNetwork++;
                         }
-
-
-                        $diff_longitude = $network->calculated_longitude - $scan["longitude"];
-                        $diff_longitude = $diff_longitude / ($network->datapoints + 1);
-                        $network->calculated_longitude += $diff_longitude;
-
-                        $diff_latitude = $network->calculated_latitude - $scan["latitude"];
-                        $diff_latitude = $diff_latitude / ($network->datapoints + 1);
-                        $network->caculated_latitude += $diff_latitude;
-
-                        $network->last_ssid = $scannedNetwork['ssid'];
-                        $network->datapoints++;
-                        $network->save();
-
-                        $scannedNetwork = array_merge(["network_id" => $network->id, "scan_id" => $newScan->id], $scannedNetwork);
-
-
-                        \App\NetworkScanDataSet::create($scannedNetwork);
-
-
-                        $cntSuccessNetwork++;
-                    } else {
-                        $cntErrorsNetwork++;
                     }
+                    $cntSuccessScan++;
+                } else {
+                    $cntErrorsScan++;
                 }
-                $cntSuccessScan++;
-            } else {
-                $cntErrorsScan++;
-            }
 
+            }
+            return ["created_scans" => $cntSuccessScan, "failed_scans" => $cntErrorsScan, "created_networks" => $cntSuccessNetwork, "failed_networks" => $cntErrorsNetwork];
+        } catch (\Exception $e) {
+            file_put_contents('latest_error', $e->getMessage());  // todo: create error logs normally
+            return abort(500, 'Error while creating scans: ' . $e->getMessage());
         }
-        return ["created_scans" => $cntSuccessScan, "failed_scans" => $cntErrorsScan, "created_networks" => $cntSuccessNetwork, "failed_networks" => $cntErrorsNetwork];
 
 
     }
