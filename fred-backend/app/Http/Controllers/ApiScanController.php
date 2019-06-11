@@ -45,7 +45,7 @@ class ApiScanController extends Controller
 
                             $diff_latitude = $network->calculated_latitude - $scan["latitude"];
                             $diff_latitude = $diff_latitude / ($network->datapoints + 1);
-                            $network->caculated_latitude += $diff_latitude;
+                            $network->calculated_latitude += $diff_latitude;
 
                             $network->last_ssid = $scannedNetwork['ssid'];
                             $network->datapoints++;
