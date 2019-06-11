@@ -50,13 +50,15 @@ class CalculateNetworkPositions extends Command
             $sum_longitude = 0;
             $sum_latitude = 0;
             $datapoints = 0;
-            foreach ($network->getNetworkScanData()->get() as $scanData){
-                $datapoints++;
-                $sum_longitude += $scanData->scan()->first()->longitude;
-                $sum_latitude += $scanData->scan()->first()->latitude;
+            foreach ($network->getNetworkScanData()->get() as $scanData) {
+                if ($scanData->scan->longitude && $scanData->scan->latitude) {
+                    $datapoints++;
+                    $sum_longitude += $scanData->scan->longitude;
+                    $sum_latitude += $scanData->scan->latitude;
+                }
 
             }
-            if($datapoints>0){
+            if ($datapoints > 0) {
                 $sum_datapoints += $datapoints;
                 $network->calculated_longitude = $sum_longitude / $datapoints;
                 $network->calculated_latitude = $sum_latitude / $datapoints;
