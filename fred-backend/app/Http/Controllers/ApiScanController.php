@@ -23,8 +23,8 @@ class ApiScanController extends Controller
                     "longitude" => $scan["longitude"],
                     "latitude" => $scan["latitude"],
                     "app_user_id" => $appUser->id,
-                    "altitude" => isset($scan['altitude']) ? $scan['altitude'] : null,
-                    "accuracy" => isset($scan['accuracy']) ? $scan['accuracy'] : null,
+                    "altitude" => isset($scan['altitude']) && is_numeric($scan['altitude']) ? $scan['altitude'] : null,
+                    "accuracy" => isset($scan['accuracy']) && is_numeric($scan['accuracy']) ? $scan['accuracy'] : null,
                 ]);
 
 
@@ -46,6 +46,7 @@ class ApiScanController extends Controller
                         $diff_latitude = $diff_latitude / ($network->datapoints + 1);
                         $network->caculated_latitude += $diff_latitude;
 
+                        $network->last_ssid = $scannedNetwork['ssid'];
                         $network->datapoints++;
                         $network->save();
 

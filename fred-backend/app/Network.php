@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Network extends Model
 {
-    protected $fillable = ['bssid','calculated_longitude','calculated_latitude','datapoints'];
+    protected $fillable = ['bssid','calculated_longitude','calculated_latitude','datapoints', 'last_ssid'];
 
 
     public function getNetworkScanData() {
