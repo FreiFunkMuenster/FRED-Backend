@@ -19,11 +19,15 @@ class CheckApiKey
         $api_key = env("API_KEY", false);
 
         if (!$api_key) {
-            return Response::create(json_encode(['return_code' => 'ERROR', 'error_code' => 'NO_API_KEY_CONFIGURED','error_text'=>'Please set API_KEY in .env configuration file.']));
+            return Response::create(
+                json_encode(['return_code' => 'ERROR', 'error_code' => 'NO_API_KEY_CONFIGURED','error_text'=>'Please set API_KEY in .env configuration file.']),
+                500
+            );
         }
 
         if ($request->api_key != $api_key ) {
-            return Response::create(json_encode(['return_code' => 'ERROR', 'error_code' => 'INVALID_API_KEY']));
+            return Response::create(json_encode(['return_code' => 'ERROR', 'error_code' => 'INVALID_API_KEY']),
+                403);
         }
 
         return $next($request);
