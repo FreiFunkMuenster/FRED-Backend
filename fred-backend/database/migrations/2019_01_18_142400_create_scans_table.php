@@ -20,8 +20,8 @@ class CreateScansTable extends Migration
             $table->integer('app_user_id')->unsigned()->nullable();
             $table->foreign('app_user_id')->references('id')->on('app_users')->onDelete('cascade');
 
-            $table->decimal("longitude");
-            $table->decimal("latitude");
+            $table->decimal("longitude", 10, 6);
+            $table->decimal("latitude", 10, 6);
 
         });
     }
